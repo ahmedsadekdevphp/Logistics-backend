@@ -22,7 +22,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::resource('orders', OrderController::class);
+    Route::resource('orders', OrderController::class)->only(['index', 'store']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])
-                ->name('logout');
+        ->name('logout');
 });

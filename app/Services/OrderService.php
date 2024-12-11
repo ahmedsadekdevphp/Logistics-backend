@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+
 class OrderService
 {
     /**
@@ -22,17 +23,7 @@ class OrderService
     public static function storeOrder($request)
     {
         try {
-            $orderData = $request->only([
-                'location',
-                'size',
-                'weight',
-                'pickupTime',
-                'deliveryTime'
-            ]);
-            $orderData['pickupTime'] = Carbon::parse($request->pickupTime)->format('Y-m-d H:i:s');
-            $orderData['deliveryTime'] = Carbon::parse($request->deliveryTime)->format('Y-m-d H:i:s');
-            $orderData['order_no'] = Self::generateOrderNumber();
-            $orderData['user_id'] = Auth::guard('api')->user()->id;
+            $orderData = self::prepareOrderData($request);
             $order = Order::create($orderData);
             $pendingStatusId = self::getPendingStatus();
             self::createOrderStatusDetail($pendingStatusId, $order->id);
@@ -42,7 +33,6 @@ class OrderService
                 'data' => $order->order_no,
             ];
         } catch (Exception $e) {
-
             Log::info($e);
             return [
                 'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -51,7 +41,28 @@ class OrderService
             ];
         }
     }
-
+    /**
+     * Prepare the order data from the incoming request for store order.
+     *
+     * @param \Illuminate\Http\Request $request The incoming HTTP request containing the order data.
+     *
+     * @return array The prepared order data
+     */
+    private static function prepareOrderData($request)
+    {
+        $orderData = $request->only([
+            'location',
+            'size',
+            'weight',
+            'pickupTime',
+            'deliveryTime'
+        ]);
+        $orderData['pickupTime'] = Carbon::parse($request->pickupTime)->format('Y-m-d H:i:s');
+        $orderData['deliveryTime'] = Carbon::parse($request->deliveryTime)->format('Y-m-d H:i:s');
+        $orderData['order_no'] = Self::generateOrderNumber();
+        $orderData['user_id'] = Auth::guard('api')->user()->id;
+        return $orderData;
+    }
     /**
      * Create a new order status detail.
      *
