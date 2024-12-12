@@ -21,12 +21,14 @@
                         {{ __('Dashboard') }}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}"
-                        href="{{ route('admin.orders.index') }}">
-                        {{ __('Orders') }}
-                    </a>
-                </li>
+                @if (auth()->check() && auth()->user()->role === 'admin')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}"
+                            href="{{ route('admin.orders.index') }}">
+                            {{ __('Orders') }}
+                        </a>
+                    </li>
+                @endif
             </ul>
 
             <!-- Settings Dropdown -->
