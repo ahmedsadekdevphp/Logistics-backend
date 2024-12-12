@@ -32,6 +32,14 @@ class Order extends Model
     public function lastStatus()
     {
         return $this->hasOne(OrderStatusDetail::class, 'order_id')
-            ->latest('created_at')->select(['id','order_statuse_id','order_id']);
+            ->latest('created_at')->select(['id', 'order_statuse_id', 'order_id']);
+    }
+
+    /**
+     * Get the statuses of the order.
+     */
+    public function statusDetails()
+    {
+        return $this->hasMany(OrderStatusDetail::class, 'order_id');
     }
 }

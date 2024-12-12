@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+use App\Http\Controllers\Admin\OrdersController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,5 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('orders', OrdersController::class)
+        ->only(['index', 'show', 'update']);
+});
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

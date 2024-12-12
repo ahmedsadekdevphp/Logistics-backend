@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\OrderStoreRequest;
 use App\Services\OrderService;
-use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Fetch and return a paginated list of orders for the  user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
     {
         $orders = Order::with('lastStatus.statusName')
             ->where('user_id', '=', Auth::guard('api')->user()->id)
@@ -24,6 +28,13 @@ class OrderController extends Controller
             'data' => $orders
         ]);
     }
+
+    /**
+     * Handle the request to create a new order.
+     *
+     * @param OrderStoreRequest $request The validated request  order data.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(OrderStoreRequest $request)
     {
         $response = OrderService::storeOrder($request);

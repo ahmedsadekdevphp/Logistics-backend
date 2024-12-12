@@ -26,5 +26,6 @@ return [
         'after' => 'The delivery time must be after the pickup time.',
     ],
     'Order created successfully'=>'Order created successfully',
-    'Failed to create order'=>'Failed to create order. Please try again later'
+    'Failed to create order'=>'Failed to create order. Please try again later',
+    'status_changed'=>'Status changed successfully !'
 ];

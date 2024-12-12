@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\User\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Api\User\OrderController;
+use App\Http\Controllers\Api\User\RegisterController;
 use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +20,11 @@ use Illuminate\Support\Facades\DB;
 */
 
 
-Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/login', [AuthController::class, 'store']);
 
 Route::middleware('auth:api')->group(function () {
     Route::resource('orders', OrderController::class)->only(['index', 'store']);
-    Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])
+    Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
