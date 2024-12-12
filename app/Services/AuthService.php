@@ -16,7 +16,7 @@ class AuthService
         $credentials = $request->only('email', 'password');
 
         if (!Auth::attempt($credentials)) {
-            return ['message' => 'Unauthorized', 'status' => Response::HTTP_UNAUTHORIZED];
+            return ['message' => trans('validation.unauthorized'), 'status' => Response::HTTP_UNAUTHORIZED];
         }
         $user = Auth::user();
         $token = $user->createToken('authToken')->plainTextToken;

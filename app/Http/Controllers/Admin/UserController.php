@@ -25,6 +25,6 @@ class UserController extends Controller
             'body' => 'required|string',
         ]);
         Mail::to($order->user->email)->send(new OrderStatusEmail($order, $request->subject, $request->body));
-        return redirect()->route('admin.orders.index')->with('success', 'Email sent successfully!');
+        return redirect()->route('admin.orders.index')->with('success', trans('order.Email sent successfully'));
     }
 }

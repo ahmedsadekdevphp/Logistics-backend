@@ -19,6 +19,6 @@ class RoleMiddleware
             return $next($request);
         }
 
-        return abort(403, 'Unauthorized');
+        return abort(403, trans('validation.unauthorized'));
     }
 }
