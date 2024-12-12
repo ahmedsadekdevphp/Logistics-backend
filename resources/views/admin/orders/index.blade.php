@@ -48,6 +48,9 @@
                                 <td>
                                     <a href="{{ route('admin.orders.show', $order->id) }}"
                                         class="btn btn-sm btn-info">View</a>
+                                    <a href="{{ route('admin.users.send-email', $order->id) }}"
+                                        class="btn btn-sm btn-primary">Send Email</a>
+
                                 </td>
                             </tr>
                         @empty

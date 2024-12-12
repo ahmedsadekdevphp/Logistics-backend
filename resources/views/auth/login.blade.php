@@ -1,7 +1,13 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-    <h2><center>Admin Login</center></h2>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <h2>
+        <center>Admin Login</center>
+    </h2>
     <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
         @csrf
 

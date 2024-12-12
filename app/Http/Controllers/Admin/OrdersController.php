@@ -8,7 +8,7 @@ use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\OrderStatusDetail;
 use Illuminate\Support\Facades\Auth;
-
+use App\Notifications\OrderStatusChanged;
 class OrdersController extends Controller
 {
     /**
@@ -55,6 +55,7 @@ class OrdersController extends Controller
             'order_statuse_id' => $request->status,
             'admin_id' => Auth::user()->id
         ]);
+
         return redirect()->route('admin.orders.index')->with('success', trans('order.status_changed'));
     }
 }

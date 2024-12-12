@@ -10,13 +10,14 @@ use Illuminate\Notifications\Notification;
 class NewOrderPlaced extends Notification
 {
     use Queueable;
+    protected $order;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -35,9 +36,13 @@ class NewOrderPlaced extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('New Order Placed: ' . $this->order->order_no)
+            ->line('A new order has been placed.')
+            ->line('Order No: ' . $this->order->order_no)
+            ->line('Pickup Time: ' . $this->order->pickupTime)
+            ->line('Delivery Time: ' . $this->order->deliveryTime)
+            ->action('View Order', route('admin.orders.show', $this->order->id))
+            ->line('Thank you!');
     }
 
     /**

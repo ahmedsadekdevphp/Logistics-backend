@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +30,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('orders', OrdersController::class)
             ->only(['index', 'show', 'update']);
+        Route::get('admin/users/{order}/send-email', [UserController::class, 'showEmailForm'])->name('users.send-email');
+        Route::post('admin/users/{order}/send-email', [UserController::class, 'sendEmail'])->name('users.send-email.post');
     });
 });
 

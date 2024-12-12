@@ -28,7 +28,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        if (auth()->user()->role !== 'admin') {
+            auth()->logout();
+            return redirect()->route('login')->with('error', 'You do not have admin access.');
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

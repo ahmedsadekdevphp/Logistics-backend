@@ -11,6 +11,9 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use App\Models\User;
+use App\Notifications\NewOrderPlaced;
+use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
@@ -22,17 +25,21 @@ class OrderService
      */
     public static function storeOrder($request)
     {
+        DB::beginTransaction();
         try {
             $orderData = self::prepareOrderData($request);
             $order = Order::create($orderData);
             $pendingStatusId = self::getPendingStatus();
             self::createOrderStatusDetail($pendingStatusId, $order->id);
+            DB::commit();
+            self::notifyAdmin($order);
             return [
                 'status' => Response::HTTP_CREATED,
                 'message' => trans('order.Order created successfully'),
                 'data' => $order->order_no,
             ];
         } catch (Exception $e) {
+            DB::rollBack();
             Log::info($e);
             return [
                 'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -124,5 +131,19 @@ class OrderService
     private static function orderNumberExists(string $orderNo)
     {
         return Order::where('order_no', $orderNo)->exists();
+    }
+    /**
+     * Notify the admin when a new order is placed.
+
+     * @param  \App\Models\Order  $order  The order that was placed
+     * @return void
+     */
+
+    public static function notifyAdmin($order)
+    {
+        $admin = User::where('role','=','admin')->first();
+        if ($admin) {
+            $admin->notify(new NewOrderPlaced($order));
+        }
     }
 }

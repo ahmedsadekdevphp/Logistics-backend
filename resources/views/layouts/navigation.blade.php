@@ -32,7 +32,7 @@
             </ul>
 
             <!-- Settings Dropdown -->
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav  ms-auto pull-right">
                 <!-- User Profile -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
