@@ -20,11 +20,10 @@ use Illuminate\Support\Facades\DB;
 */
 
 
-Route::post('/register', [RegisterController::class, 'store']);
-Route::post('/login', [AuthController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store'])->middleware('throttle:10,1');
+Route::post('/login', [AuthController::class, 'store'])->middleware('throttle:10,1'); 
 
 Route::middleware('auth:api')->group(function () {
     Route::resource('orders', OrderController::class)->only(['index', 'store']);
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

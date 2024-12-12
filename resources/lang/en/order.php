@@ -25,7 +25,7 @@ return [
         'date_format' => 'The delivery time must follow the format Y-m-d H:i:s.',
         'after' => 'The delivery time must be after the pickup time.',
     ],
-    'Order created successfully' => 'Order created successfully',
+    'Order created successfully' => 'Order created successfully,Your Order No is :',
     'Failed to create order' => 'Failed to create order. Please try again later',
     'status_changed' => 'Status changed successfully !',
     'Email sent successfully' => 'Email sent successfully !',

@@ -19,11 +19,11 @@ class RegisterService
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(
+        return
             [
                 'status' => Response::HTTP_CREATED,
                 'message'=>trans('user.registerUser')
             ]
-        );
+        ;
     }
 }

@@ -25,7 +25,7 @@
         </div>
 
         <div class=" col-sm-6 col-md-4 mt-5 px-5 py-4 bg-white shadow-sm rounded">
-            {{ $slot }}
+            @yield('content')
         </div>
     </div>
 

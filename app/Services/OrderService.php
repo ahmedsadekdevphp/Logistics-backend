@@ -32,10 +32,10 @@ class OrderService
             $pendingStatusId = self::getPendingStatus();
             self::createOrderStatusDetail($pendingStatusId, $order->id);
             DB::commit();
-            self::notifyAdmin($order);
+              self::notifyAdmin($order);
             return [
                 'status' => Response::HTTP_CREATED,
-                'message' => trans('order.Order created successfully'),
+                'message' => trans('order.Order created successfully') . $order->order_no,
                 'data' => $order->order_no,
             ];
         } catch (Exception $e) {
@@ -141,7 +141,7 @@ class OrderService
 
     public static function notifyAdmin($order)
     {
-        $admin = User::where('role','=','admin')->first();
+        $admin = User::where('role', '=', 'admin')->first();
         if ($admin) {
             $admin->notify(new NewOrderPlaced($order));
         }

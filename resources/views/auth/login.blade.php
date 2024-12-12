@@ -1,4 +1,6 @@
-<x-guest-layout>
+@extends('layouts.guest')
+
+@section('content')
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
@@ -10,21 +12,28 @@
     </h2>
     <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
         @csrf
-
         <!-- Email Address -->
         <div class="mb-3">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required
-                autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="text-danger mt-2" />
+            <label for="email" class="form-label">{{ trans('user.email') }}</label>
+            <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required
+                autofocus autocomplete="username">
+            @if ($errors->has('email'))
+                <div class="text-danger mt-2">
+                    {{ $errors->first('email') }}
+                </div>
+            @endif
         </div>
 
         <!-- Password -->
         <div class="mb-3">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="form-control" type="password" name="password" required
-                autocomplete="current-password" />
-            <x-input-error :messages="$errors->get('password')" class="text-danger mt-2" />
+            <label for="password" class="form-label">{{ __('Password') }}</label>
+            <input id="password" class="form-control" type="password" name="password" required
+                autocomplete="current-password">
+            @if ($errors->has('password'))
+                <div class="text-danger mt-2">
+                    {{ $errors->first('password') }}
+                </div>
+            @endif
         </div>
 
         <!-- Remember Me -->
@@ -35,15 +44,10 @@
 
         <!-- Forgot Password Link and Submit Button -->
         <div class="d-flex justify-content-between mt-4">
-            @if (Route::has('password.request'))
-                <a class="text-muted" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 {{ __('Log in') }}
-            </x-primary-button>
+            </button>
         </div>
+
     </form>
-</x-guest-layout>
+@endsection
