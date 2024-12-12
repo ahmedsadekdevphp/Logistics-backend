@@ -25,10 +25,6 @@ Start the local development server
 
     php artisan serve
 
-## Testing
-  you can  use this command to run test cases 
-      php artisan test
-  
-## Use Apis
- you need to change base url with your local server url 
- to test apis you can find  Ads Manager.postman_collection in root folder 
+Start the larvel queue
+
+    php artisan queue:work
